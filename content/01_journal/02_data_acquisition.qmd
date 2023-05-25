@@ -1,8 +1,26 @@
 ---
 title: "Data Acquisition"
-author: "Joschka Schwarz"
+author: "Navaneet Sridhar"
 ---
 
 ::: callout-note
 You can delete everything in here and start fresh.
 :::
+
+#Load libraries
+```{r}
+library(RSQLite)
+library(dplyr)
+library(httr)
+library(glue)
+library(jsonlite)
+library(keyring)
+library("rstudioapi")
+library(rvest)
+```
+
+#Send the GET request to the API
+```{r}
+response <- GET("https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood")
+```
+
