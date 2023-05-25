@@ -238,7 +238,7 @@ Note
 <p>You can delete everything in here and start fresh.</p>
 </div>
 </div>
-<p>#Loading Libraries</p>
+<p>#Loading the Libraries</p>
 <div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-1_e4e8af028cb2001ebc437b34e7a69573">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(RSQLite)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
@@ -249,7 +249,7 @@ Note
 <span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(<span class="st">"rstudioapi"</span>)</span>
 <span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(rvest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>#Sending the GET request to the API</p>
+<p>#Send GET request to the API</p>
 <div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-2_18c27303a53a06112ff39af82698fa7e">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a> resp <span class="ot">&lt;-</span> <span class="fu">GET</span>(<span class="st">"https://api.openweathermap.org/data/2.5/weather?q=London&amp;appid=a8c19e73b21191e9fa018bef278a9af4"</span>)   <span class="co">#Reading content from the website</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>weather_data <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="fu">content</span>(resp, <span class="st">"text"</span>)) <span class="sc">%&gt;%</span>  </span>
@@ -264,7 +264,7 @@ Note
 </div>
 </div>
 </div>
-<p>#Scrape one of the competitor websites and create a small database.</p>
+<p>#Scrape one of the competitor websites of canyon and create a small database.</p>
 <div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-3_861ebef32b22b0041d65f6976231cb52">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Set the URL of the website to scrape</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>url <span class="ot">&lt;-</span> <span class="st">"https://www.rosebikes.de/"</span></span>
@@ -325,10 +325,6 @@ Note
 #&gt; 28 Grand Prix 5000 Rennradreifen, Faltreifen (Tube-Type)    34,95
 #&gt; 29       Shock Blow - Dämpferpumpe und Federgabelpumpe -    19,95</code></pre>
 </div>
-</div>
-<p>#Send the GET request to the API</p>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-4_1cfbc83d18a9401b8f1f08036817aadf">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>response <span class="ot">&lt;-</span> <span class="fu">GET</span>(<span class="st">"https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
