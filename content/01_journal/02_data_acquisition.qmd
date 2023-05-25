@@ -6,8 +6,7 @@ author: "Navaneet Sridhar"
 ::: callout-note
 You can delete everything in here and start fresh.
 :::
-
-#Loading Libraries
+#Loading the Libraries
 ```{r}
 library(RSQLite)
 library(dplyr)
@@ -19,7 +18,7 @@ library("rstudioapi")
 library(rvest)
 
 ```
-#Sending the GET request to the API
+#Send GET request to the API
 ```{r}
  resp <- GET("https://api.openweathermap.org/data/2.5/weather?q=London&appid=a8c19e73b21191e9fa018bef278a9af4")   #Reading content from the website
 weather_data <- fromJSON(content(resp, "text")) %>%  
@@ -27,7 +26,7 @@ weather_data <- fromJSON(content(resp, "text")) %>%
 weather_data
 ```
 
-#Scrape one of the competitor websites and create a small database.
+#Scrape one of the competitor websites of canyon and create a small database.
 ```{r}
 # Set the URL of the website to scrape
 url <- "https://www.rosebikes.de/"
@@ -60,8 +59,5 @@ print(database)
 
 ```
 
-#Send the GET request to the API
-```{r}
-response <- GET("https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood")
-```
+
 
