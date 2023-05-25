@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Joschka Schwarz">
+<meta name="author" content="Navaneet Sridhar">
 
 <title>MyLabJournal - Data Wrangling</title>
 <style>
@@ -21,6 +21,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -62,6 +125,9 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
+
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 </head>
@@ -131,7 +197,14 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#define-column-types-for-vroom" id="toc-define-column-types-for-vroom" class="nav-link active" data-scroll-target="#define-column-types-for-vroom"><span class="toc-section-number">1</span>  Define column types for vroom</a></li>
+  <li><a href="#the-reduced-data-set-for-the-year-2014-read-into-a-tibble" id="toc-the-reduced-data-set-for-the-year-2014-read-into-a-tibble" class="nav-link" data-scroll-target="#the-reduced-data-set-for-the-year-2014-read-into-a-tibble"><span class="toc-section-number">2</span>  The reduced data set for the year 2014 read into a tibble</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -148,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Joschka Schwarz </p>
+             <p>Navaneet Sridhar </p>
           </div>
   </div>
     
@@ -159,21 +232,133 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<p>#Load Libraries</p>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-1_d36347e4c05113adac98df0b832c0443">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(vroom)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tictoc)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout-caption-container flex-fill">
-Note
+<section id="define-column-types-for-vroom" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Define column types for vroom</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-2_bb24549244947b5271932f59b5bfcb67">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>col_types <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="at">id =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="at">type =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="at">number =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-5"><a href="#cb2-5"></a>  <span class="at">country =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="at">date =</span> <span class="fu">col_date</span>(<span class="st">"%Y-%m-%d"</span>),</span>
+<span id="cb2-7"><a href="#cb2-7"></a>  <span class="at">abstract =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-8"><a href="#cb2-8"></a>  <span class="at">title =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-9"><a href="#cb2-9"></a>  <span class="at">kind =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-10"><a href="#cb2-10"></a>  <span class="at">num_claims =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb2-11"><a href="#cb2-11"></a>  <span class="at">filename =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-12"><a href="#cb2-12"></a>  <span class="at">withdrawn =</span> <span class="fu">col_double</span>()</span>
+<span id="cb2-13"><a href="#cb2-13"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-reduced-data-set-for-the-year-2014-read-into-a-tibble" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> The reduced data set for the year 2014 read into a tibble</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-3_eef09f35ee0c10f1e0216358cc62f5df">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>patent_tbl <span class="ot">&lt;-</span> <span class="fu">vroom</span>(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="at">file =</span> <span class="st">"C:/Users/navan/OneDrive/Desktop/BM/ss23-bdsb-NavaneetS/assets/Wrangling/Patent_data_reduced/patent.tsv"</span>, </span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="at">delim =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="co">#col_types = col_types,</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="co">#na = c("", "NA", "NULL")</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; Rows: 327014 Columns: 3
+#&gt; ── Column specification ────────────────────────────────────────────────────────
+#&gt; Delimiter: "\t"
+#&gt; chr  (1): id
+#&gt; dbl  (1): num_claims
+#&gt; date (1): date
+#&gt; 
+#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.
+#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>assignee_tbl <span class="ot">&lt;-</span> <span class="fu">vroom</span>(</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="at">file =</span> <span class="st">"C:/Users/navan/OneDrive/Desktop/BM/ss23-bdsb-NavaneetS/assets/Wrangling/Patent_data_reduced/assignee.tsv"</span>, </span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="at">delim =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, </span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="at">col_types =</span> col_types,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="at">na =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NA"</span>, <span class="st">"NULL"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; Warning: The following named parsers don't match the column names: number,
+#&gt; country, date, abstract, title, kind, num_claims, filename, withdrawn</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>patent_assignee_tbl <span class="ot">&lt;-</span> <span class="fu">vroom</span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="at">file =</span> <span class="st">"C:/Users/navan/OneDrive/Desktop/BM/ss23-bdsb-NavaneetS/assets/Wrangling/Patent_data_reduced/patent_assignee.tsv"</span>, </span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="at">delim =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, </span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="at">col_types =</span> col_types,</span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="at">na =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NA"</span>, <span class="st">"NULL"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; Warning: The following named parsers don't match the column names: id, type,
+#&gt; number, country, date, abstract, title, kind, num_claims, filename, withdrawn</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>uspc_tbl <span class="ot">&lt;-</span> <span class="fu">vroom</span>(</span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="at">file =</span> <span class="st">"C:/Users/navan/OneDrive/Desktop/BM/ss23-bdsb-NavaneetS/assets/Wrangling/Patent_data_reduced/uspc.tsv"</span>, </span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="at">delim =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, </span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="at">col_types =</span> col_types,</span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="at">na =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NA"</span>, <span class="st">"NULL"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; Warning: The following named parsers don't match the column names: id, type,
+#&gt; number, country, date, abstract, title, kind, num_claims, filename, withdrawn</code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>You can delete everything in here and start fresh.</p>
+<p>#Joining the tables</p>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-4_a8914684874785002462e78219ba407f">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>patent_joined_table <span class="ot">&lt;-</span> patent_assignee_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">inner_join</span>(assignee_tbl, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"assignee_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">inner_join</span>(patent_tbl, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"patent_id"</span> <span class="ot">=</span> <span class="st">"id"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>#List of 10 US companies with the most assigned/granted patents.</p>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-5_0f5ecc1db70d7689016b0839007d0df9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>us_patent_counts <span class="ot">&lt;-</span> patent_joined_table <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">group_by</span>(organization) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">summarise</span>(<span class="at">total_patents =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_patents))</span>
+<span id="cb12-5"><a href="#cb12-5"></a></span>
+<span id="cb12-6"><a href="#cb12-6"></a>top_10_us_companies <span class="ot">&lt;-</span> <span class="fu">head</span>(us_patent_counts, <span class="dv">10</span>)</span>
+<span id="cb12-7"><a href="#cb12-7"></a></span>
+<span id="cb12-8"><a href="#cb12-8"></a>top_10_us_companies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["organization"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total_patents"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"International Business Machines Corporation","2":"7547"},{"1":"Samsung Electronics Co., Ltd.","2":"5835"},{"1":"Canon Kabushiki Kaisha","2":"4099"},{"1":"Sony Corporation","2":"3326"},{"1":"Microsoft Corporation","2":"3165"},{"1":"Google Inc.","2":"2668"},{"1":"Kabushiki Kaisha Toshiba","2":"2656"},{"1":"QUALCOMM Incorporated","2":"2597"},{"1":"LG Electronics Inc.","2":"2459"},{"1":"NA","2":"2377"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>#List the top 10 companies with the most new granted patents for August 2014.</p>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-6_e65fa46d2f261a6969c93579a9bb3ed4">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>us_patent_counts_aug_2014 <span class="ot">&lt;-</span> patent_joined_table <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%Y-%m"</span>) <span class="sc">==</span> <span class="st">"2014-08"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">group_by</span>(organization) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">summarise</span>(<span class="at">total_patents =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_patents)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="fu">select</span>(organization, total_patents)</span>
+<span id="cb13-7"><a href="#cb13-7"></a></span>
+<span id="cb13-8"><a href="#cb13-8"></a>top_10_us_companies_aug_2014 <span class="ot">&lt;-</span> <span class="fu">head</span>(us_patent_counts_aug_2014, <span class="dv">10</span>)</span>
+<span id="cb13-9"><a href="#cb13-9"></a></span>
+<span id="cb13-10"><a href="#cb13-10"></a>top_10_us_companies_aug_2014</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["organization"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total_patents"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"International Business Machines Corporation","2":"718"},{"1":"Samsung Electronics Co., Ltd.","2":"524"},{"1":"Canon Kabushiki Kaisha","2":"361"},{"1":"Microsoft Corporation","2":"337"},{"1":"Sony Corporation","2":"269"},{"1":"Google Inc.","2":"240"},{"1":"QUALCOMM Incorporated","2":"223"},{"1":"Apple Inc.","2":"222"},{"1":"Kabushiki Kaisha Toshiba","2":"213"},{"1":"LG Electronics Inc.","2":"211"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
