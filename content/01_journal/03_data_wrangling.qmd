@@ -1,8 +1,101 @@
 ---
 title: "Data Wrangling"
-author: "Joschka Schwarz"
+author: "Navaneet Sridhar"
 ---
+#Load Libraries
+```{r}
+library(tidyverse)
+library(vroom)
+library(data.table)
+library(tictoc)
+library(dplyr)
+library(readxl)
 
-::: callout-note
-You can delete everything in here and start fresh.
-:::
+```
+# Define column types for vroom
+```{r}
+col_types <- list(
+  id = col_character(),
+  type = col_character(),
+  number = col_character(),
+  country = col_character(),
+  date = col_date("%Y-%m-%d"),
+  abstract = col_character(),
+  title = col_character(),
+  kind = col_character(),
+  num_claims = col_double(),
+  filename = col_character(),
+  withdrawn = col_double()
+)
+
+```
+# The reduced data set for the year 2014 read into a tibble
+```{r}
+
+patent_tbl <- vroom(
+  file = "C:/Users/navan/OneDrive/Desktop/BM/ss23-bdsb-NavaneetS/assets/Wrangling/Patent_data_reduced/patent.tsv", 
+  delim = "\t"
+  #col_types = col_types,
+  #na = c("", "NA", "NULL")
+)
+
+assignee_tbl <- vroom(
+  file = "C:/Users/navan/OneDrive/Desktop/BM/ss23-bdsb-NavaneetS/assets/Wrangling/Patent_data_reduced/assignee.tsv", 
+  delim = "\t", 
+  col_types = col_types,
+  na = c("", "NA", "NULL")
+)
+
+patent_assignee_tbl <- vroom(
+  file = "C:/Users/navan/OneDrive/Desktop/BM/ss23-bdsb-NavaneetS/assets/Wrangling/Patent_data_reduced/patent_assignee.tsv", 
+  delim = "\t", 
+  col_types = col_types,
+  na = c("", "NA", "NULL")
+)
+
+uspc_tbl <- vroom(
+  file = "C:/Users/navan/OneDrive/Desktop/BM/ss23-bdsb-NavaneetS/assets/Wrangling/Patent_data_reduced/uspc.tsv", 
+  delim = "\t", 
+  col_types = col_types,
+  na = c("", "NA", "NULL")
+)
+
+```
+#Joining the tables
+```{r}
+patent_joined_table <- patent_assignee_tbl %>%
+  inner_join(assignee_tbl, by = c("assignee_id" = "id")) %>%
+  inner_join(patent_tbl, by = c("patent_id" = "id"))
+
+
+```
+
+#List of 10 US companies with the most assigned/granted patents.
+```{r}
+us_patent_counts <- patent_joined_table %>%
+  group_by(organization) %>%
+  summarise(total_patents = n()) %>%
+  arrange(desc(total_patents))
+
+top_10_us_companies <- head(us_patent_counts, 10)
+
+top_10_us_companies
+
+
+```
+
+#List the top 10 companies with the most new granted patents for August 2014.
+```{r}
+us_patent_counts_aug_2014 <- patent_joined_table %>%
+  filter(format(date, "%Y-%m") == "2014-08") %>%
+  group_by(organization) %>%
+  summarise(total_patents = n()) %>%
+  arrange(desc(total_patents)) %>%
+  select(organization, total_patents)
+
+top_10_us_companies_aug_2014 <- head(us_patent_counts_aug_2014, 10)
+
+top_10_us_companies_aug_2014
+
+```
+
